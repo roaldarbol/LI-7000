@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#testing 
+#hello 
 
 import time
 from class_li7000 import li7000
