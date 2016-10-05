@@ -6,8 +6,8 @@ import time
 
 
 class li7000:
-    def __init__(self, port, baudrate):
-        self.ser = serial.Serial(port, baudrate, timeout=1)
+    def __init__(self, port, baudrate, time):
+        self.ser = serial.Serial(port, baudrate, timeout=time)
 
     def li7000_readline(self):
         output = self.ser.readline()
