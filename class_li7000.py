@@ -5,6 +5,7 @@ import datetime
 import serial
 import time
 
+
 class li7000:
 	
 	def __init__(self, port, baudrate):
