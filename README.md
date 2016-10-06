@@ -36,6 +36,7 @@ As soon as object is created, port will be be immediately opened
 
 li7000_pollnow()
 Query instrument measurement
+Output: (str)
 
 
 
