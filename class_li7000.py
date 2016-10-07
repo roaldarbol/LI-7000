@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# Filename: class_li7000.py
+# !/usr/bin/python  # Filename: class_li7000.py
 
 import serial
 import time
@@ -40,6 +39,9 @@ class li7000:
         time.sleep(0.1)
         str = "(Reference(H2O-units %s)(H2O %.3f)(CO2 %.3f))\n" % (units, H2O, CO2)
         self.ser.write(bytes(str.encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
     def li7000_matchCO2(self):
         self.ser.flushInput()
@@ -48,6 +50,9 @@ class li7000:
         time.sleep(0.1)
         str = "(UserCal(CO2 (Match Now)))\n"
         self.ser.write(bytes(str.encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
     def li7000_matchH2O(self):
         self.ser.flushInput()
@@ -56,13 +61,19 @@ class li7000:
         time.sleep(0.1)
         str = "(UserCal(H2O (Match Now)))\n"
         self.ser.write(bytes(str.encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
-    def li7000_zeroh2o(self, interval):
-         self.ser.flushInput()
-         self.ser.flushOutput()
-         time.sleep(0.1)
-         self.ser.write(bytes("(UserCal (H2O (CellA-mm/m 0)))\n".encode()))
-         time.sleep(interval)
+    def li7000_zeroh2o(self, span_interval):
+        self.ser.flushInput()
+        self.ser.flushOutput()
+        span_interval_sec = span_interval * 60
+        time.sleep(span_interval_sec)
+        self.ser.write(bytes("(UserCal (H2O (CellA-mm/m 0)))\n".encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
     def li7000_h20calresult(self):
         self.ser.flushInput()
@@ -72,28 +83,37 @@ class li7000:
         output = self.li7000_readline()
         return output
 
-    def li7000_spanh2o(self, span, interval):
-         self.ser.flushInput()
-         self.ser.flushOutput()
-         time.sleep(0.1)
-         str = "(UserCal (H2O (CellA-mm/m %.3f)))\n" % (span)
-         self.ser.write(bytes(str.encode()))
-         time.sleep(interval)
+    def li7000_spanh2o(self, span, span_interval):
+        self.ser.flushInput()
+        self.ser.flushOutput()
+        span_interval_sec = span_interval * 60
+        time.sleep(span_interval_sec)
+        str = "(UserCal (H2O (CellA-mm/m %.3f)))\n" % (span)
+        self.ser.write(bytes(str.encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
-    def li7000_zeroco2(self, interval):
-         self.ser.flushInput()
-         self.ser.flushOutput()
-         time.sleep(0.1)
-         self.ser.write(bytes("(UserCal (CO2 (CellA-um/m 0)))\n".encode()))
-         time.sleep(interval)
+    def li7000_zeroco2(self, span_interval):
+        self.ser.flushInput()
+        self.ser.flushOutput()
+        span_interval_sec = span_interval * 60
+        time.sleep(span_interval_sec)
+        self.ser.write(bytes("(UserCal (CO2 (CellA-um/m 0)))\n".encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
-    def li7000_spanco2(self, span, interval):
-         self.ser.flushInput()
-         self.ser.flushOutput()
-         time.sleep(0.1)
-         str = "(UserCal (CO2 (CellA-um/m %.3f)))\n" % (span)
-         self.ser.write(bytes(str.encode()))
-         time.sleep(interval)
+    def li7000_spanco2(self, span, span_interval):
+        self.ser.flushInput()
+        self.ser.flushOutput()
+        span_interval_sec = span_interval * 60
+        time.sleep(span_interval_sec)
+        str = "(UserCal (CO2 (CellA-um/m %.3f)))\n" % (span)
+        self.ser.write(bytes(str.encode()))
+        time.sleep(0.1)
+        self.ser.flushInput()
+        self.ser.flushOutput()
 
     def li7000_co2calresult(self):
         self.ser.flushInput()
@@ -103,4 +123,22 @@ class li7000:
         output = self.li7000_readline()
         return output
 
-    # testing megadeth
+    def li7000_calibration(self, h2o_zero_interval, co2_zero_interval, co2_span_interval, co2_span):
+        print("Initiate Calibration\n")
+        print("Zeroing H2O for %.3f minutes\n" % h2o_zero_interval)
+        self.li7000_zeroh2o(h2o_zero_interval)
+        print("Zero H20 completed \n")
+        print("Matching H2O in Cell A and B \n")
+        self.li7000_matchH2O()
+        print("Matching H2O in Cell A and B completed \n")
+        print("Zeroing CO2 for %.3f minutes\n" % co2_zero_interval)
+        self.li7000_zeroco2(co2_zero_interval)
+        print("Zero CO2 completed \n")
+        print("Matching CO2 in Cell A and B \n")
+        self.li7000_matchCO2()
+        print("Matching CO2 in Cell A and B completed \n")
+        print("Spanning CO2 for %.3f minutes\n" % co2_span_interval)
+        self.li7000_spanco2(co2_span, co2_span_interval)
+        print("Spanning CO2 completed \n")
+        print("Calibration complete!")
+
