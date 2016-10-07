@@ -88,7 +88,7 @@ class li7000:
         self.ser.flushOutput()
         span_interval_sec = span_interval * 60
         time.sleep(span_interval_sec)
-        str = "(UserCal (H2O (CellA-mm/m %.3f)))\n" % (span)
+        str = "(UserCal (H2O (CellB-mm/m %.3f)))\n" % (span)
         self.ser.write(bytes(str.encode()))
         time.sleep(0.1)
         self.ser.flushInput()
