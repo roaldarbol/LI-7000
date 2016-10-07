@@ -125,6 +125,8 @@ class li7000:
 
     def li7000_calibration(self, h2o_zero_interval, co2_zero_interval, co2_span_interval, co2_span):
         print("Initiate Calibration\n")
+        print("Reference H20: Dry CO2: %.3f" % co2_span)
+        self.li7000_setreference("mm/m", 0, 1)
         print("Zeroing H2O for %.3f minutes\n" % h2o_zero_interval)
         self.li7000_zeroh2o(h2o_zero_interval)
         print("Zero H20 completed \n")
