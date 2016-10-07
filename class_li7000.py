@@ -123,7 +123,7 @@ class li7000:
         output = self.li7000_readline()
         return output
 
-    def li7000_calibration(self, h2o_zero_interval, co2_zero_interval, co2_span_interval, co2_ref, co2_span):
+    def li7000_calibration(self, h2o_zero_interval, h2o_span_interval, co2_zero_interval, co2_span_interval, h2o_span, co2_ref, co2_span):
         print("Initiate Calibration\n")
         print("Reference H20: Dry CO2: %.3f" % co2_ref)
         self.li7000_setreference("mm/m", 0, co2_ref)
@@ -135,6 +135,10 @@ class li7000:
         self.li7000_matchH2O()
         time.sleep(2)
         print("Matching H2O in Cell A and B completed \n")
+        print("Spanning H2O in Cell B for %.3f minutes\n" % h2o_span_interval)
+        self.li7000_spanh2o(h2o_span, h2o_span_interval)
+        time.sleep(2)
+        print("Spanning H2O in Cell B completed \n")
         print("Zeroing CO2 in Cell A for %.3f minutes\n" % co2_zero_interval)
         self.li7000_zeroco2(co2_zero_interval)
         time.sleep(2)
