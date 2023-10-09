@@ -3,6 +3,7 @@
 import serial
 import time
 
+
 class li7000:
     def __init__(self, port, baudrate, time):
         self.ser = serial.Serial(port, baudrate, timeout=time)
@@ -122,7 +123,16 @@ class li7000:
         output = self.readline()
         return output
 
-    def calibrate(self, h2o_zero_interval, h2o_span_interval, co2_zero_interval, co2_span_interval, h2o_span, co2_ref, co2_span):
+    def calibrate(
+        self,
+        h2o_zero_interval,
+        h2o_span_interval,
+        co2_zero_interval,
+        co2_span_interval,
+        h2o_span,
+        co2_ref,
+        co2_span,
+    ):
         print("Initiate Calibration\n")
         print("Reference H20: Dry CO2: %.3f" % co2_ref)
         self.set_reference("mm/m", 0, co2_ref)
@@ -151,4 +161,3 @@ class li7000:
         time.sleep(2)
         print("Spanning CO2 in Cell B completed \n")
         print("Calibration complete!")
-
