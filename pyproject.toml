@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "li-7000"
+version = "0.1.0"
+description = "Read LI-7000 data with Python"
+authors = [
+    "Idaly Ali",
+    "Mikkel Roald-Arbøl <github.ggb9a@simplelogin.co>"
+    ]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyserial = "^3.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
